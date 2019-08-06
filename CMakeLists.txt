@@ -64,7 +64,7 @@ add_subdirectory(kll)
 add_subdirectory(fi)
 add_subdirectory(theta)
 if (BUILD_PYTHON)
-add_subdirectory(python)
+    add_subdirectory(python)
 endif()
 
 target_link_libraries(datasketches PUBLIC cpc kll fi theta) #hll
