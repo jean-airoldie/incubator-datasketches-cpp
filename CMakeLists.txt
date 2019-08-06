@@ -58,7 +58,7 @@ endif()
 add_library(datasketches SHARED "")
 
 add_subdirectory(common)
-add_subdirectory(hll)
+#add_subdirectory(hll)
 add_subdirectory(cpc)
 add_subdirectory(kll)
 add_subdirectory(fi)
@@ -67,7 +67,7 @@ if (BUILD_PYTHON)
 add_subdirectory(python)
 endif()
 
-target_link_libraries(datasketches PUBLIC hll cpc kll fi theta)
+target_link_libraries(datasketches PUBLIC cpc kll fi theta) #hll
 
 set_target_properties(datasketches PROPERTIES
   LINKER_LANGUAGE CXX
