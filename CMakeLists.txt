@@ -51,7 +51,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # Enable testing
 find_package(CppUnit)
 CMAKE_DEPENDENT_OPTION(BUILD_TESTS "Compile unit tests" ON "CPPUNIT_FOUND" OFF)
-if (BUILD_TESTS)  
+if (BUILD_TESTS)
   enable_testing()
 endif()
 
@@ -63,7 +63,9 @@ add_subdirectory(cpc)
 add_subdirectory(kll)
 add_subdirectory(fi)
 add_subdirectory(theta)
+if (BUILD_PYTHON)
 add_subdirectory(python)
+endif()
 
 target_link_libraries(datasketches PUBLIC hll cpc kll fi theta)
 
