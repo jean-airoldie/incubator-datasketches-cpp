@@ -9,6 +9,11 @@ target_include_directories(common
     include
 )
 
+set(common_HEADERS "include/serde.hpp")
+
+install(FILES ${common_HEADERS}
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/DataSketches")
+
 target_sources(common
   INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/include/MurmurHash3.h
