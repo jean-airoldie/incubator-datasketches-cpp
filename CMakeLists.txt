@@ -63,7 +63,7 @@ if (BUILD_SHARED)
 endif()
 
 if (BUILD_STATIC)
-    add_library(datasketches-static SHARED "")
+    add_library(datasketches-static STATIC "")
 endif()
 
 add_subdirectory(common)
@@ -81,6 +81,7 @@ if (BUILD_SHARED)
 endif()
 if (BUILD_STATIC)
     target_link_libraries(datasketches-static PUBLIC cpc kll fi theta) #hll
+    set_target_properties(datasketches-static PROPERTIES OUTPUT_NAME "datasketches")
 endif()
 
 if (BUILD_SHARED)
@@ -112,6 +113,7 @@ endif()
 if (BUILD_STATIC)
     install(TARGETS datasketches-static
       EXPORT ${PROJCT_NAME}
+      RENAME datasketches
       DESTINATION ${CMAKE_INSTALL_LIBDIR}
       PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
       INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
