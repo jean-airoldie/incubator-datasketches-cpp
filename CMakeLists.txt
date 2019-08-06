@@ -55,7 +55,16 @@ if (BUILD_TESTS)
   enable_testing()
 endif()
 
-add_library(datasketches SHARED "")
+option(BUILD_SHARED "Whether or not to build the shared object"  ON)
+option(BUILD_STATIC "Whether or not to build the static archive" OFF)
+
+if (BUILD_SHARED)
+    add_library(datasketches SHARED "")
+endif()
+
+if (BUILD_STATIC)
+    add_library(datasketches-static SHARED "")
+endif()
 
 add_subdirectory(common)
 #add_subdirectory(hll)
@@ -67,22 +76,47 @@ if (BUILD_PYTHON)
     add_subdirectory(python)
 endif()
 
-target_link_libraries(datasketches PUBLIC cpc kll fi theta) #hll
+if (BUILD_SHARED)
+    target_link_libraries(datasketches PUBLIC cpc kll fi theta) #hll
+endif()
+if (BUILD_STATIC)
+    target_link_libraries(datasketches-static PUBLIC cpc kll fi theta) #hll
+endif()
 
-set_target_properties(datasketches PROPERTIES
-  LINKER_LANGUAGE CXX
-  CXX_STANDARD 11
-  CXX_STANDARD_REQUIRED YES
-)
+if (BUILD_SHARED)
+    set_target_properties(datasketches PROPERTIES
+      LINKER_LANGUAGE CXX
+      CXX_STANDARD 11
+      CXX_STANDARD_REQUIRED YES
+    )
+endif()
+
+if (BUILD_STATIC)
+    set_target_properties(datasketches-static PROPERTIES
+      LINKER_LANGUAGE CXX
+      CXX_STANDARD 11
+      CXX_STANDARD_REQUIRED YES
+    )
+endif()
 
 # # Installation
-install(TARGETS datasketches
-  EXPORT ${PROJCT_NAME}
-  DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
-  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
-)
+if (BUILD_SHARED)
+    install(TARGETS datasketches
+      EXPORT ${PROJCT_NAME}
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
+      INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
+    )
+endif()
 
+if (BUILD_STATIC)
+    install(TARGETS datasketches-static
+      EXPORT ${PROJCT_NAME}
+      DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
+      INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
+    )
+endif()
 #set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 #set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 #include(CPack)
