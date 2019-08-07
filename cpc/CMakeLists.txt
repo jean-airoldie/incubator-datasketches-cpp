@@ -10,7 +10,7 @@ target_include_directories(cpc
   PUBLIC
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  PRIVATE 
+  PRIVATE
     ${COMMON_INCLUDE_DIR}
 )
 

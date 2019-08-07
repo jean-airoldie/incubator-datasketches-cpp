@@ -1,4 +1,4 @@
-add_library(kll INTERFACE)
+add_library(kll OBJECT "")
 
 add_library(${PROJECT_NAME}::KLL ALIAS kll)
 
@@ -7,24 +7,28 @@ if (BUILD_TESTS)
 endif()
 
 target_include_directories(kll
-  INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PUBLIC
     $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>
-  PRIVATE 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PRIVATE
     ${COMMON_INCLUDE_DIR}
 )
 
-target_link_libraries(kll INTERFACE common)
-target_compile_features(kll INTERFACE cxx_std_11)
+target_link_libraries(kll common)
 
-set(kll_HEADERS "include/kll_sketch.hpp;include/kll_helper.hpp;include/kll_quantile_calculator.hpp;include/kll_wrapper.hpp")
+set_target_properties(cpc PROPERTIES
+  PUBLIC_HEADER "include/kll_sketch.hpp;include/kll_helper.hpp;include/kll_quantile_calculator.hpp;include/kll_wrapper.hpp"
+  POSITION_INDEPENDENT_CODE ON
+  CXX_STANDARD 11
+  CXX_STANDARD_REQUIRED YES
+)
+
 
 install(TARGETS kll
   EXPORT ${PROJECT_NAME}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/DataSketches
 )
-
-install(FILES ${kll_HEADERS}
-  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/DataSketches")
 
 target_sources(kll
   INTERFACE
@@ -32,4 +36,6 @@ target_sources(kll
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kll_sketch.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kll_quantile_calculator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/kll_wrapper.hpp
+  PRIVATE
+    src/kll_wrapper.cpp
 )
