@@ -67,7 +67,7 @@ if (BUILD_STATIC)
 endif()
 
 add_subdirectory(common)
-#add_subdirectory(hll)
+add_subdirectory(hll)
 add_subdirectory(cpc)
 add_subdirectory(kll)
 add_subdirectory(fi)
@@ -77,10 +77,10 @@ if (BUILD_PYTHON)
 endif()
 
 if (BUILD_SHARED)
-    target_link_libraries(datasketches PUBLIC cpc kll fi theta) #hll
+    target_link_libraries(datasketches PUBLIC hll cpc kll fi theta)
 endif()
 if (BUILD_STATIC)
-    target_link_libraries(datasketches-static PUBLIC cpc kll fi theta) #hll
+    target_link_libraries(datasketches-static PUBLIC hll cpc kll fi theta)
     set_target_properties(datasketches-static PROPERTIES OUTPUT_NAME "datasketches")
 endif()
 
