@@ -63,7 +63,6 @@ add_subdirectory(cpc)
 add_subdirectory(kll)
 add_subdirectory(fi)
 add_subdirectory(theta)
-add_subdirectory(python)
 
 target_link_libraries(datasketches PUBLIC hll cpc kll fi theta)
 
